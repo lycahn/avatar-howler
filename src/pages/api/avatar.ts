@@ -6,7 +6,6 @@ import Avatar, { AvatarProps } from "boring-avatars";
 import * as uuid from "uuid";
 import * as yup from "yup";
 import colors from "nice-color-palettes";
-import puppeteer from "puppeteer";
 
 const variants = ["beam", "pixel", "bauhaus"];
 const svgStore: { [key: string]: string } = {};
@@ -15,7 +14,6 @@ const querySchema = yup.object().shape({
 	variant: yup.string().oneOf(variants).optional(),
 	name: yup.string().optional(),
 	size: yup.number().integer(),
-	format: yup.string().oneOf(["png", "jpeg"]).default("png"),
 });
 
 type GetRequest = NextApiRequest & {
@@ -24,7 +22,6 @@ type GetRequest = NextApiRequest & {
 		colors?: AvatarProps["colors"];
 		size?: number;
 		name?: string;
-		format?: "png" | "jpeg";
 	};
 };
 
@@ -51,9 +48,8 @@ export default nextConnect<NextApiRequest, NextApiResponse>().get(
 
 			const el = createElement(Avatar, {
 				name: Buffer.from(uuid.v4()).toString("base64"),
-				size: 100,
+				size: 80,
 				variant,
-				square: true,
 				colors: randomColors,
 				...req.query,
 			});
@@ -62,44 +58,10 @@ export default nextConnect<NextApiRequest, NextApiResponse>().get(
 			const id = uuid.v4();
 			svgStore[id] = html;
 
-			const browser = await puppeteer.launch();
-			const page = await browser.newPage();
-			await page.setViewport({ width: 100, height: 100 });
-			await page.setContent(`
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <style>
-                        body {
-                            display: flex;
-                            justify-content: center;
-							background-color: transparent;
-                            align-items: center;
-                            width: auto;
-                            height: auto;
-                            margin: 0;
-                        }
-                    </style>
-                </head>
-                <body>
-                    ${html}
-                </body>
-                </html>
-            `);
-
-			const format = req.query.format || "png";
-			const screenshotOptions = {
-				type: format,
-				omitBackground: true,
-			};
-
-			const buffer = await page.screenshot(screenshotOptions);
-			await browser.close();
-
 			try {
-				res.setHeader("Content-Type", `image/${format}`);
+				res.setHeader("Content-Type", "image/svg+xml");
 				res.setHeader("Access-Control-Allow-Origin", "*");
-				res.end(buffer);
+				res.end(html);
 			} catch (err) {
 				res.status(400).send({ error: err.toString() });
 			}
