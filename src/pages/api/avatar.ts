@@ -6,14 +6,15 @@ import Avatar, { AvatarProps } from "boring-avatars";
 import * as uuid from "uuid";
 import * as yup from "yup";
 import colors from "nice-color-palettes";
+import sharp from "sharp";
 
 const variants = ["beam", "pixel", "bauhaus"];
-const svgStore: { [key: string]: string } = {};
+const imageStore: { [key: string]: Buffer } = {};
 
 const querySchema = yup.object().shape({
 	variant: yup.string().oneOf(variants).optional(),
 	name: yup.string().optional(),
-	size: yup.number().integer(),
+	size: yup.number().integer().optional(),
 });
 
 type GetRequest = NextApiRequest & {
@@ -50,18 +51,22 @@ export default nextConnect<NextApiRequest, NextApiResponse>().get(
 				name: Buffer.from(uuid.v4()).toString("base64"),
 				size: 80,
 				variant,
+				square: true,
 				colors: randomColors,
 				...req.query,
 			});
-			const html = renderToStaticMarkup(el);
+			const svg = renderToStaticMarkup(el);
+
+			// Convert SVG to PNG
+			const imageBuffer = await sharp(Buffer.from(svg)).png().toBuffer();
 
 			const id = uuid.v4();
-			svgStore[id] = html;
+			imageStore[id] = imageBuffer;
 
 			try {
-				res.setHeader("Content-Type", "image/svg+xml");
+				res.setHeader("Content-Type", "image/png");
 				res.setHeader("Access-Control-Allow-Origin", "*");
-				res.end(html);
+				res.end(imageBuffer);
 			} catch (err) {
 				res.status(400).send({ error: err.toString() });
 			}
@@ -73,14 +78,14 @@ export default nextConnect<NextApiRequest, NextApiResponse>().get(
 	}
 );
 
-export const getSvgById = nextConnect<NextApiRequest, NextApiResponse>().get(
+export const getImageById = nextConnect<NextApiRequest, NextApiResponse>().get(
 	(req, res) => {
 		const { id } = req.query;
-		const svg = svgStore[id as string];
-		if (svg) {
-			res.setHeader("Content-Type", "image/svg+xml");
+		const image = imageStore[id as string];
+		if (image) {
+			res.setHeader("Content-Type", "image/png");
 			res.setHeader("Access-Control-Allow-Origin", "*");
-			res.end(svg);
+			res.end(image);
 		} else {
 			res.status(404).send({ error: "Not found" });
 		}
