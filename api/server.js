@@ -1,5 +1,4 @@
 const express = require('express');
-const serverless = require('serverless-http');
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 const styled = require('styled-components').default;
@@ -21,7 +20,7 @@ const AvatarComponent = ({ name, playgroundColors, size, square, variant, Avatar
 app.get('/avatar', async (req, res) => {
   const { generateUsername } = await import('unique-username-generator');
   const colors = (await import('nice-color-palettes/200')).default;
-  const { default: Avatar } = await import('./lib/components/Avatar');
+  const { default: Avatar } = await import('../src/lib/components/Avatar');
 
   const customPalette = colors[Math.floor(Math.random() * colors.length)];
   const variants = ['beam', 'bauhaus', 'ring'];
@@ -62,4 +61,4 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-module.exports.handler = serverless(app);
+module.exports = app;
