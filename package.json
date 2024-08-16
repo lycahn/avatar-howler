@@ -2,7 +2,7 @@
   "name": "wolfnet-avatars",
   "description": "Random generated avatars forked from Boring Avatars and changed to api.",
   "version": "1.0.1",
-  "main": "src/server.js",
+  "main": "functions/server.js",
   "scripts": {
     "build": "npm install",
     "start": "cross-env NODE_ENV=production node -r @babel/register functions/server.js"
