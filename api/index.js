@@ -20,7 +20,7 @@ const AvatarComponent = ({ name, playgroundColors, size, square, variant, Avatar
 app.get('/avatar', async (req, res) => {
   const { generateUsername } = await import('unique-username-generator');
   const colors = (await import('nice-color-palettes/200')).default;
-  const { default: Avatar } = await import('../src/lib/components/Avatar');
+  const { default: Avatar } = await import('../src/lib/components/avatar');
 
   const customPalette = colors[Math.floor(Math.random() * colors.length)];
   const variants = ['beam', 'bauhaus', 'ring'];

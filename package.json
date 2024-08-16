@@ -2,10 +2,10 @@
   "name": "wolfnet-avatars",
   "description": "Random generated avatars forked from Boring Avatars and changed to api.",
   "version": "1.0.1",
-  "main": "api/server.js",
+  "main": "api/index.js",
   "scripts": {
     "build": "npx babel api --out-dir dist",
-    "start": "node -r @babel/register api/server.js"
+    "start": "node -r @babel/register api/index.js"
   },
   "license": "MIT",
   "eslintConfig": {
