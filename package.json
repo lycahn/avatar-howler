@@ -4,8 +4,7 @@
   "version": "1.0.1",
   "main": "src/server.js",
   "scripts": {
-    "start": "node -r @babel/register src/server.js",
-    "build": "npm install && npm run start"
+    "start": "node -r @babel/register src/server.js"
   },
   "license": "MIT",
   "eslintConfig": {
