@@ -1,3 +1,7 @@
+require('@babel/register')({
+  presets: ['@babel/preset-env', '@babel/preset-react'],
+});
+
 const express = require('express');
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
