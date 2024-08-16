@@ -38,7 +38,7 @@ export default nextConnect<NextApiRequest, NextApiResponse>().get(
 
 			const variant: any =
 				req.query.variant ||
-				variants[Math.floor(Math.random() * variants.length)]; // lub inna metoda uzyskania wartości variant
+				variants[Math.floor(Math.random() * variants.length)];
 
 			if (!isValidVariant(variant)) {
 				throw new Error(`Invalid variant type: ${variant}`);
@@ -55,12 +55,12 @@ export default nextConnect<NextApiRequest, NextApiResponse>().get(
 			});
 			const html = renderToStaticMarkup(el);
 
-			// Generate unique ID for the avatar
 			const id = uuid.v4();
 			svgStore[id] = html;
 
 			try {
 				res.setHeader("Content-Type", "image/svg+xml");
+				res.setHeader("Access-Control-Allow-Origin", "*");
 				res.end(html);
 			} catch (err) {
 				res.status(400).send({ error: err.toString() });
@@ -73,13 +73,13 @@ export default nextConnect<NextApiRequest, NextApiResponse>().get(
 	}
 );
 
-// Endpoint to serve the SVG by ID
 export const getSvgById = nextConnect<NextApiRequest, NextApiResponse>().get(
 	(req, res) => {
 		const { id } = req.query;
 		const svg = svgStore[id as string];
 		if (svg) {
 			res.setHeader("Content-Type", "image/svg+xml");
+			res.setHeader("Access-Control-Allow-Origin", "*");
 			res.end(svg);
 		} else {
 			res.status(404).send({ error: "Not found" });
