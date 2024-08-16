@@ -4,7 +4,7 @@
   "version": "1.0.1",
   "main": "functions/server.js",
   "scripts": {
-    "build": "npm install",
+    "build": "netlify-lambda build functions",
     "start": "cross-env NODE_ENV=production node -r @babel/register functions/server.js"
   },
   "license": "MIT",
@@ -28,6 +28,7 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "babel-preset-react-app": "^10.0.1",
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "netlify-lambda": "^2.0.16"
   }
 }

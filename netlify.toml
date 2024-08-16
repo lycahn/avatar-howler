@@ -1,8 +1,8 @@
 [build]
-  command = "npm install && node -r @babel/register functions/server.js"
+  command = "npm install && npm run build"
   publish = "."
 
 [[redirects]]
   from = "/*"
-  to = "/functions/server"
+  to = "/.netlify/functions/server"
   status = 200
