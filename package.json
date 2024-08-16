@@ -5,7 +5,7 @@
   "main": "functions/server.js",
   "scripts": {
     "build": "netlify-lambda build functions",
-    "start": "cross-env NODE_ENV=production node -r @babel/register functions/server.js"
+    "start": "netlify-lambda serve functions"
   },
   "license": "MIT",
   "eslintConfig": {
