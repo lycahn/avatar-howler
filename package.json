@@ -1,0 +1,30 @@
+{
+  "name": "wolfnet-avatars",
+  "description": "Random generated avatars forked from Boring Avatars and changed to api.",
+  "version": "1.0.1",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node -r @babel/register src/server.js"
+  },
+  "license": "MIT",
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "babel": {
+    "presets": [
+      "react-app"
+    ]
+  },
+  "dependencies": {
+    "@babel/preset-env": "^7.25.3",
+    "@babel/preset-react": "^7.24.7",
+    "@babel/register": "^7.24.6",
+    "express": "^4.19.2",
+    "nice-color-palettes": "^3.0.0",
+    "prop-types": "^15.8.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "styled-components": "^6.1.12",
+    "unique-username-generator": "^1.3.0"
+  }
+}
