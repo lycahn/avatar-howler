@@ -14,5 +14,5 @@ type Query = {
 ## Usage/Examples
 
 ```shell
-curl https://boring-avatars-api.vercel.app/api/avatar?size=40&variant=marble
+curl hwolfnet-avatars.vercel.app/api/avatar?size=40&variant=marble
 ```
