@@ -1,18 +1,10 @@
-require('@babel/register')({
-  presets: ['@babel/preset-env', '@babel/preset-react'],
-});
-
-const { generateUsername } = require('unique-username-generator');
-const colors = require('nice-color-palettes/200');
-
 const express = require('express');
+const serverless = require('serverless-http');
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 const styled = require('styled-components').default;
-const Avatar = require('./lib').default;
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 const AvatarContainer = styled.div`
   display: flex;
@@ -20,13 +12,17 @@ const AvatarContainer = styled.div`
   align-items: center;
 `;
 
-const AvatarComponent = ({ name, playgroundColors, size, square, variant }) => (
+const AvatarComponent = ({ name, playgroundColors, size, square, variant, Avatar }) => (
   <AvatarContainer>
     <Avatar name={name} colors={playgroundColors} size={size} variant={variant} square={square} />
   </AvatarContainer>
 );
 
-app.get('/avatar', (req, res) => {
+app.get('/avatar', async (req, res) => {
+  const { generateUsername } = await import('unique-username-generator');
+  const colors = (await import('nice-color-palettes/200')).default;
+  const { default: Avatar } = await import('../src/lib/components/Avatar');
+
   const customPalette = colors[Math.floor(Math.random() * colors.length)];
   const variants = ['beam', 'bauhaus', 'ring'];
   const getRandomVariant = () => variants[Math.floor(Math.random() * variants.length)];
@@ -41,6 +37,7 @@ app.get('/avatar', (req, res) => {
     size: avatarSize,
     square: isSquare,
     variant: randomVariant,
+    Avatar: Avatar,
   });
 
   const avatarHtml = ReactDOMServer.renderToString(avatarElement);
@@ -60,7 +57,9 @@ app.get('/avatar', (req, res) => {
   `);
 });
 
-// Uruchomienie serwera
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Serwer działa na porcie ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
+
+module.exports.handler = serverless(app);
