@@ -9,7 +9,7 @@ const express = require('express');
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 const styled = require('styled-components').default;
-const Avatar = require('./lib').default;
+const Avatar = require('./src/lib').default;
 
 const app = express();
 const PORT = process.env.PORT || 3000;
