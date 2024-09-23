@@ -19,12 +19,6 @@ curl wolfnet-avatars.vercel.app/api/avatar?size=40&variant=marble
 
 ## Issues
 
-If you enountered an issue, please open new one on [GitHub](https://github.com/lycahn/howlgen/issues).
+If you enountered an issue, please open new one on [GitHub](https://github.com/lycahn/avatar-howler/issues).
 
 Issues and bugs are more than welcome, as they help to improve the plugin.
-
-## Meta
-
-[CONTRIBUTING](/.github/CONTRIBUTING.md)
-
-[LICENSE (MIT)](https://github.com/lycahn/howlgen?tab=MIT-1-ov-file)
