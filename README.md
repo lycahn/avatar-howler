@@ -7,14 +7,14 @@
 ```typescript
 type Query = {
 	size?: int; // Default: 80(px)
-	variant?: "marble" | "beam" | "pixel" | "sunset" | "ring" | "bauhaus";
+	variant?: "beam" | "pixel" | "bauhaus";
 };
 ```
 
 ## Usage/Examples
 
 ```shell
-curl wolfnet-avatars.vercel.app/api/avatar?size=40&variant=marble
+curl wolfnet-avatars.vercel.app/api/avatar?size=40&variant=beam
 ```
 
 ## Issues
